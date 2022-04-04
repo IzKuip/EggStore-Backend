@@ -1,17 +1,13 @@
-import { readFile } from "fs/promises";
 import { DataBaseManagement } from "../../db/main";
 import { Api } from "../main";
 import url from "url";
 import { ParsedUrlQuery } from "querystring";
-import { Strings } from "../../strings/main";
-import { AuthAPI } from "./auth";
 import { UserManagement } from "../../user/main";
 import argon2 from "argon2";
+import { Strings } from "../../strings/main";
 
 class EAPI {
   async get(req: Request, res: any) {
-    const q = url.parse(req.url, true).query;
-
     const { username, password } = UserManagement.getAuth(req);
     const authdb = await DataBaseManagement.get("cred", true);
 
@@ -25,7 +21,14 @@ class EAPI {
         return;
       }
 
-      Api.writeResponse(res, await DataBaseManagement.get("eggs", true), true);
+      Api.writeResponse(
+        res,
+        EggAPI.sortByKey(
+          await DataBaseManagement.get("eggs", true),
+          "timestamp"
+        ),
+        true
+      );
 
       return;
     }
@@ -63,12 +66,16 @@ class EAPI {
         return;
       }
 
-      const [registrar, amount] = [q.registrar, q.amount];
+      const [registrar, amount, timestamp] = [
+        q.registrar,
+        q.amount,
+        q.timestamp,
+      ];
 
       const json = {
         registrar,
         amount,
-        timestamp: new Date().getTime(),
+        timestamp: timestamp || new Date().getTime(),
         id: Math.floor(Math.random() * 2 ** 24),
       };
 
@@ -119,7 +126,7 @@ class EAPI {
 
       const db = (await DataBaseManagement.get("eggs")) as any[];
 
-      let index = undefined;
+      let index = -1;
       let json = undefined;
 
       for (let i = 0; i < db.length; i++) {
@@ -131,7 +138,7 @@ class EAPI {
         }
       }
 
-      if (index) db.splice(index, 1);
+      if (index >= 0) db.splice(index, 1);
 
       Api.writeResponse(res, json, await DataBaseManagement.write("eggs", db));
 
@@ -181,11 +188,16 @@ class EAPI {
         return;
       }
 
-      const [id, amount, registrar] = [q.id, q.amount, q.registrar];
+      const [id, amount, registrar, timestamp] = [
+        q.id,
+        q.amount,
+        q.registrar,
+        q.timestamp,
+      ];
 
       const db = (await DataBaseManagement.get("eggs")) as any[];
 
-      let index:number|undefined;
+      let index: number | undefined;
       let json = undefined;
 
       for (let i = 0; i < db.length; i++) {
@@ -209,10 +221,11 @@ class EAPI {
 
       if (registrar) json.registrar = registrar;
       if (amount) json.amount = amount;
+      if (timestamp) json.timestamp = timestamp;
 
       db[index as number] = json;
 
-      console.log(index, db[index as number])
+      console.log(index, db[index as number]);
 
       Api.writeResponse(res, json, await DataBaseManagement.write("eggs", db));
 
@@ -223,6 +236,15 @@ class EAPI {
       "Unable to change entry",
       "The authentication parameters are not specified or the user doesn't exist."
     );
+  }
+
+  sortByKey(array: any[], key: string) {
+    return array.sort(function (a, b) {
+      var x = a[key];
+      var y = b[key];
+
+      return x < y ? -1 : x > y ? 1 : 0;
+    });
   }
 }
 
