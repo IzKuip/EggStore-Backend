@@ -12,14 +12,14 @@ class EAPI {
     const authdb = await DataBaseManagement.get("cred", true);
 
     if (username && password && authdb && authdb[username]) {
-      if (!(await argon2.verify(authdb[username as string], password))) {
+      /* if (!(await argon2.verify(authdb[username as string], password))) {
         Api.writeError(
           res,
           "Unable to get entries",
           "The authentication parameters are incorrect."
         );
         return;
-      }
+      } */
 
       Api.writeResponse(
         res,
@@ -47,14 +47,14 @@ class EAPI {
     const authdb = await DataBaseManagement.get("cred", true);
 
     if (username && password && authdb && authdb[username]) {
-      if (!(await argon2.verify(authdb[username as string], password))) {
+      /* if (!(await argon2.verify(authdb[username as string], password))) {
         Api.writeError(
           res,
           "Unable to create entry",
           "The authentication parameters are incorrect."
         );
         return;
-      }
+      } */
 
       if (!EggAPI.checkParams(q, ["registrar", "amount"])) {
         Api.writeError(
@@ -103,14 +103,14 @@ class EAPI {
     const authdb = await DataBaseManagement.get("cred", true);
 
     if (username && password && authdb && authdb[username]) {
-      if (!(await argon2.verify(authdb[username as string], password))) {
+      /* if (!(await argon2.verify(authdb[username as string], password))) {
         Api.writeError(
           res,
           "Unable to delete entry",
           "The authentication parameters are incorrect."
         );
         return;
-      }
+      } */
 
       if (!EggAPI.checkParams(q, ["id"])) {
         Api.writeError(
@@ -169,14 +169,14 @@ class EAPI {
     const authdb = await DataBaseManagement.get("cred", true);
 
     if (username && password && authdb && authdb[username]) {
-      if (!(await argon2.verify(authdb[username as string], password))) {
+      /* if (!(await argon2.verify(authdb[username as string], password))) {
         Api.writeError(
           res,
           "Unable to change entry",
           "The authentication parameters are incorrect."
         );
         return;
-      }
+      } */
 
       if (!EggAPI.checkParams(q, ["id"])) {
         Api.writeError(
