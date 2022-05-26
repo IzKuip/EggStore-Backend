@@ -27,7 +27,7 @@ class SM {
       .listen(port);
   }
 
-  defaultPort = 9999;
+  defaultPort = 9000;
 }
 
 export const ServerManagement = new SM();

@@ -1,7 +1,7 @@
 import { DBPath } from "../db/main";
 
 class E {
-  serverPort = 9999;
+  serverPort = 9000;
 
   databases = new Map<string, DBPath>([
     [

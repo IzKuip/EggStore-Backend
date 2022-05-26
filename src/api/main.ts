@@ -81,76 +81,76 @@ class API {
 export const Api = new API();
 export const APIPaths = new Map<string, APIComponent>([
   [
-    "/eggs/get",
+    "/api/eggs/get",
     {
       name: "Gives a list of egg registrations",
       requestFn: EggAPI.get
     }
   ],
   [
-    "/eggs/register",
+    "/api/eggs/register",
     {
       name: "Registers a new egg entry",
       requestFn: EggAPI.register
     }
   ],
   [
-    "/eggs/delete",
+    "/api/eggs/delete",
     {
       name: "Deletes an egg entry",
       requestFn: EggAPI.delete
     }
   ],
   [
-    "/eggs/change",
+    "/api/eggs/change",
     {
       name: "Changes an egg entry",
       requestFn: EggAPI.change
     }
   ],
   [
-    "/help",
+    "/api/help",
     {
       name: "Gives a list of API functions",
       requestFn: Api.help,
     },
   ],[
-    "/auth/check",
+    "/api/auth/check",
     {
       name: "Used for logging in, returns true if the authentication was successful",
       requestFn: AuthAPI.check,
     },
   ],
   [
-    "/user/exists",
+    "/api/user/exists",
     {
       name: "Used for verifying if a user exists",
       requestFn: UserAPI.userExists,
     },
   ],
   [
-    "/user/create",
+    "/api/user/create",
     {
       name: "Used for creating users",
       requestFn: UserAPI.createUser,
     },
   ],
   [
-    "/user/delete",
+    "/api/user/delete",
     {
       name: "Used for deleting users - requires user's username and password",
       requestFn: UserAPI.deleteUser,
     },
   ],
   [
-    "/user/rename",
+    "/api/user/rename",
     {
       name: "Used for renaming users - requires user's username and password",
       requestFn: UserAPI.renameUser,
     },
   ],
   [
-    "/user/reset",
+    "/api/user/reset",
     {
       name: "Used for resetting users - requires user's username and password",
       requestFn: UserAPI.resetUser,
